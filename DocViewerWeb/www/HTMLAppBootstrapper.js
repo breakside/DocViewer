@@ -1,4 +1,4 @@
-/* global HTMLAppBootstrapper, window, navigator, localStorage, document, setTimeout, main, console */
+/* global HTMLAppBootstrapper, main */
 'use strict';
 
 (function(){

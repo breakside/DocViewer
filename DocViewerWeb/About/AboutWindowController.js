@@ -1,5 +1,4 @@
 // #import UIKit
-/* global JSClass, UIWindowController, JSInsets, JSSize, JSPoint, JSRect, JSBundle, JSAttributedString, UICursor, JSURL, AboutWindowController */
 'use strict';
 
 JSClass("AboutWindowController", UIWindowController, {

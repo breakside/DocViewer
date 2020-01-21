@@ -41,7 +41,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font: 300 16px/24px "Source Sans Pro", "San Francisco", "Helvetica Neue", "Helvetica", sans-serif;
+    font: 300 16px/24px "Source Sans Pro", "Helvetica", sans-serif;
     height: 24px;
     text-align: center;
     color: rgb(255,255,255);
@@ -57,7 +57,7 @@
     left: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
-    font: 300 16px/20px "San Francisco", "Helvetica Neue", "Helvetica", sans-serif;
+    font: 300 16px/20px "Source Sans Pro", "Helvetica", sans-serif;
     text-align: center;
     color: rgb(173,173,228);
     transition: opacity linear .5s .5s;
@@ -103,7 +103,7 @@
   </div>
   <script type="text/javascript" src="HTMLAppBootstrapper.js"></script>
   <script type="text/javascript" jskit>
-  /* global document, window, console, HTMLAppBootstrapper */
+  /* global HTMLAppBootstrapper */
   'use strict';
   (function(){
     var app = {TEMPLATE: "JSKIT_APP"};
@@ -120,7 +120,7 @@
       switch (bootstrapper.status){
         case S.checkingForUpdate:
           statusLabel.style.opacity = 1;
-          statusLabel.innerHTML = 'Checking for updated docs...';
+          statusLabel.innerHTML = 'Checking for update...';
           break;
         case S.installing:
           statusLabel.innerHTML = 'Loading...';
@@ -128,7 +128,7 @@
           progress.style.opacity = 1;
           break;
         case S.updating:
-          statusLabel.innerHTML = 'Getting updated docs...';
+          statusLabel.innerHTML = 'Updating...';
           statusLabel.style.opacity = 1;
           progress.style.opacity = 1;
           break;
@@ -171,7 +171,6 @@
     bootstrapper.onprogress = function(loaded, total){
       progressBar.style.width = (loaded * 100 / total) + '%';
     };
-    bootstrapper.setLogger(console);
     window.JSKIT_PREFLIGHT_CONTEXT = bootstrapper;
     bootstrapper.run();
   })();

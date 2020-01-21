@@ -1,6 +1,5 @@
 // Copyright © 2020 Breakside Inc.  MIT License.
 // #import UIKit
-/* global JSClass, UIView, BreadcrumbView, UILabel, UIMenu, JSImage, JSRect, JSPoint, JSSize, JSInsets, JSColor, UIPopupButton, UIPopupButtonStyler, _BreadcrumbPopupButtonStyler, UIImageView, JSFont, UIMenuDefaultStyler, _BreadcrumbMenuStyler */
 'use strict';
 
 JSClass("BreadcrumbView", UIView, {
