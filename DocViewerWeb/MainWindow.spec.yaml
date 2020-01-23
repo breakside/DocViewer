@@ -129,9 +129,10 @@ SidebarOutlineView:
         cellBackgroundColor: /SidebarColor
 
   styler:
-    class: UIOutlineViewDefaultStyler
+    class: SidebarOutlineViewStyler
     showSeparators: false
     imageSize: 16,16
+    accessoryInsets: 0,4
     cellFont:
       size: detail
     selectedCellBackgroundColor: /HighlightColor

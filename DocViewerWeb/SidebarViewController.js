@@ -1,5 +1,6 @@
 // Copyright © 2020 Breakside Inc.  MIT License.
 // #import UIKit
+// #import "BetaAccessoryView.js"
 'use strict';
 
 (function(){
@@ -160,6 +161,11 @@ JSClass("SidebarViewController", UIViewController, {
             cell = listView.dequeueReusableCellWithIdentifier('item', indexPath);
             cell.imageView.image = imageByKind[component.kind](component);
         }
+        if (component.beta){
+            cell.accessoryView = BetaAccessoryView.init();
+        }else{
+            cell.accessoryView = null;
+        }
         cell.titleLabel.text = component.name;
         return cell;
     },
@@ -296,6 +302,23 @@ JSClass("SidebarViewController", UIViewController, {
     }
 
 });
+
+JSClass("SidebarOutlineViewStyler", UIOutlineViewDefaultStyler, {
+
+    updateCell: function(cell, indexPath){
+        SidebarOutlineViewStyler.$super.updateCell.call(this, cell, indexPath);
+        if (cell.accessoryView){
+            if (cell.selected){
+                cell.accessoryView.color = JSColor.white;
+            }else{
+                cell.accessoryView.color = betaColor;
+            }
+        }
+    }
+
+});
+
+var betaColor = JSColor.initWithRGBA(180/255,111/255,51/255);
 
 var imageByKind = {
     'index': function(){ return images.frameworkIcon; },
