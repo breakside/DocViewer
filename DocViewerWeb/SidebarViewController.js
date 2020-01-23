@@ -308,7 +308,7 @@ JSClass("SidebarOutlineViewStyler", UIOutlineViewDefaultStyler, {
     updateCell: function(cell, indexPath){
         SidebarOutlineViewStyler.$super.updateCell.call(this, cell, indexPath);
         if (cell.accessoryView){
-            if (cell.selected){
+            if (cell.selected && cell.listView.keyActive){
                 cell.accessoryView.color = JSColor.white;
             }else{
                 cell.accessoryView.color = betaColor;
