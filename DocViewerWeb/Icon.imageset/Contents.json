@@ -1,16 +1,20 @@
 {
     "images": [
         {
-            "filename": "Icon.png",
+            "filename": "icon-16.png",
             "scale": 1
         },
         {
-            "filename": "Icon@2x.png",
+            "filename": "icon-32.png",
             "scale": 2
         },
         {
-            "filename": "Icon@3x.png",
+            "filename": "icon-64.png",
             "scale": 3
+        },
+        {
+            "filename": "icon.svg",
+            "vector": true
         }
     ]
 }
