@@ -269,6 +269,7 @@ JSClass("SidebarViewController", UIViewController, {
                 }
             }
         }
+        this.searchListView.selectNone();
         this.searchListView.reloadData();
     },
 
