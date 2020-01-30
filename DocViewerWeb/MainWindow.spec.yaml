@@ -121,7 +121,7 @@ SidebarOutlineView:
       className: UIOutlineViewCell
       styler:
         class: UIOutlineViewDefaultStyler
-        showSeparators: false
+        showsSeparators: false
         cellFont:
           size: detail
           weight: bold
@@ -130,7 +130,7 @@ SidebarOutlineView:
 
   styler:
     class: SidebarOutlineViewStyler
-    showSeparators: false
+    showsSeparators: false
     imageSize: 16,16
     accessoryInsets: 0,4
     cellFont:

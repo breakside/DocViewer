@@ -1,4 +1,4 @@
-/* global HTMLAppBootstrapper, main */
+/* global HTMLAppBootstrapper, main, console */
 'use strict';
 
 (function(){
@@ -7,8 +7,12 @@ var logger = {
     log: function(){},
     debug: function(){},
     info: function(){},
-    warn: function(){},
-    error: function(){}
+    warn: function(){
+        console.warn.apply(console, arguments);
+    },
+    error: function(){
+        console.error.apply(console, arguments);
+    }
 };
 
 window.HTMLAppBootstrapper = function(rootElement, jskitapp){

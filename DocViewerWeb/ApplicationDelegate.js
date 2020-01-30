@@ -1,8 +1,8 @@
 // Copyright © 2020 Breakside Inc.  MIT License.
-// #import UIKit
+// #import "ApplicationDelegateBase.js"
 'use strict';
 
-JSClass("ApplicationDelegate", JSObject, {
+JSClass("ApplicationDelegate", ApplicationDelegateBase, {
 
     window: null,
     mainViewController: null,
@@ -12,12 +12,6 @@ JSClass("ApplicationDelegate", JSObject, {
         this.mainViewController.baseURL = application.baseURL;
         this.mainViewController.setup(launchOptions.uistate);
         this.window.makeKeyAndOrderFront();
-    },
-
-    setupDefaults: function(){
-        JSUserDefaults.shared.registerDefaults({
-            lastComponentPath: null, 
-        });
     },
 
     applicationUpdateAvailable: function(application){

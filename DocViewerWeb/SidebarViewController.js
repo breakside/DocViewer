@@ -233,7 +233,7 @@ JSClass("SidebarViewController", UIViewController, {
         this.outlineView.hidden = true;
         if (!this.searchListView){
             var styler = UIListViewDefaultStyler.init();
-            styler.showSeparators = this.outlineView.styler.showSeparators;
+            styler.showsSeparators = this.outlineView.styler.showsSeparators;
             styler.imageSize = this.outlineView.styler.imageSize;
             styler.imageSize = this.outlineView.styler.imageSize;
             styler.cellFont = this.outlineView.styler.cellFont;

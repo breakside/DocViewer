@@ -1,0 +1,40 @@
+File's Owner: /ListViewController
+
+ListViewController:
+  class: ComponentsListViewController
+  view: /ListView
+
+ListView:
+  class: UIListView
+  delegate: /ListViewController
+  dataSource: /ListViewController
+  rowHeight: 44
+  headerHeight: 32
+  headersStickToTop: true
+  styler:
+    class: UIListViewDefaultStyler
+    headerBackgroundColor:
+      rgba: 240,240,240
+    headerTextColor:
+      rgba: 102,102,102
+    headerFont:
+      size: detail
+      weight: semibold
+    cellBackgroundColor:
+      rgba: 255,255,255
+    selectedCellBackgroundColor: /PrimaryColor
+    activeCellBackgroundColor:
+      rgba: 224,224,224
+    showsSeparators: false
+    showsMutedState: false
+  reusableCellClasses:
+    component: UIListViewCell
+    topic:
+      className: UIListViewCell
+      styler:
+        class: UIListViewDefaultStyler
+  reusableHeaderFooterClasses:
+    header: UIListViewHeaderFooterView
+
+PrimaryColor:
+  rgba: 90,90,200

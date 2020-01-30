@@ -19,7 +19,7 @@ JSClass("BreadcrumbView", UIView, {
             }
         }
         if (spec.containsKey("highlightColor")){
-            this._menuHighlightColor = spec.valueForKey("highlightColor");
+            this._menuHighlightColor = spec.valueForKey("highlightColor", JSColor);
         }
     },
 

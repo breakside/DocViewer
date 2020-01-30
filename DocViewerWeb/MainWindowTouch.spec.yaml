@@ -1,0 +1,28 @@
+File's Owner: /AppDelegate
+
+AppDelegate:
+  class: ApplicationDelegateTouch
+  outlets:
+    window: /MainWindow
+    navigationController: /NavigationController
+
+MainWindow:
+  class: UIRootWindow
+  contentViewController: /NavigationController
+
+NavigationController:
+  class: UINavigationController
+  root: "@ComponentsListViewController"
+  navigationBar:
+    styler:
+      class: UINavigationBarDefaultStyler
+      backgroundColor: /PrimaryColor
+      titleColor: white
+      contentSeparatorWidth: 1
+      contentSeparatorColor:
+        blendBase: /PrimaryColor
+        with: black
+        percent: 30
+
+PrimaryColor:
+  rgba: 90,90,200
