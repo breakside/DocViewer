@@ -11,8 +11,9 @@ ListView:
   rowHeight: 44
   headerHeight: 32
   headersStickToTop: true
+  backgroundColor: white
   styler:
-    class: UIListViewDefaultStyler
+    class: ComponentsListViewStyler
     headerBackgroundColor:
       rgba: 240,240,240
     headerTextColor:
@@ -27,6 +28,7 @@ ListView:
       rgba: 224,224,224
     showsSeparators: false
     showsMutedState: false
+    accessoryInsets: 0,4
   reusableCellClasses:
     component: UIListViewCell
     topic:

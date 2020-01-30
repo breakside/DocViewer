@@ -5,6 +5,8 @@ AppDelegate:
   outlets:
     window: /MainWindow
     mainViewController: /MainViewController
+    sidebarViewController: /SidebarViewController
+    contentViewController: /ContentViewController
 
 LineColor:
   rgba: 152,152,203

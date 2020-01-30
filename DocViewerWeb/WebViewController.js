@@ -15,6 +15,7 @@ JSClass("WebViewController", UIViewController, {
 
     loadView: function(){
         this.view = UIWebView.init();
+        this.view.delegate = this;
     },
 
     viewWillAppear: function(animated){
@@ -33,6 +34,8 @@ JSClass("WebViewController", UIViewController, {
         WebViewController.$super.viewDidDisappear.call(this, animated);
     },
 
-    
+    webViewDidLoadURL: function(webView, url){
+        JSNotificationCenter.shared.post("io.breakside.DocViewer.DocumentViewed", this, {url: url});
+    }
 
 });

@@ -9,8 +9,6 @@ JSClass("ContentViewController", UIViewController, {
     menuButton: null,
     webView: null,
     delegate: null,
-    baseURL: null,
-    componentsByURLPath: null,
 
     initWithSpec: function(spec){
         ContentViewController.$super.initWithSpec.call(this, spec);
@@ -18,26 +16,6 @@ JSClass("ContentViewController", UIViewController, {
             this.delegate = spec.valueForKey("delegate");
         }
         this.menuButtonInsets = JSInsets(3, 7);
-    },
-
-    setComponents: function(components){
-        this.componentsByURLPath = {};
-        this.addComponentsByURLPath(components, []);
-    },
-
-    addComponentsByURLPath: function(components, ancestors){
-        var prefix = this.baseURL.path + 'docs/';
-        for (var i = 0, l = components.length; i < l; ++i){
-            var component = components[i];
-            var path = prefix + component.url;
-            this.componentsByURLPath[path] = {
-                ancestors: ancestors,
-                component: component
-            };
-            if (component.children){
-                this.addComponentsByURLPath(component.children, ancestors.concat(component));
-            }
-        }
     },
 
     // --------------------------------------------------------------------
@@ -52,24 +30,14 @@ JSClass("ContentViewController", UIViewController, {
     },
 
     webViewDidLoadURL: function(webView, url){
-        var components = this.componentsForURL(url);
+        var components = UIApplication.shared.delegate.componentsForURL(url);
         this.breadcrumbView.setComponents(components);
-        if (this.delegate && this.delegate.contentViewDidShowComponent && components.length > 0){
-            this.delegate.contentViewDidShowComponent(this, components[components.length - 1]);
-        }
+        JSNotificationCenter.shared.post("io.breakside.DocViewer.DocumentViewed", this, {url: url});
     },
 
     showComponent: function(component){
         var url = JSURL.initWithString('docs/' + component.url);
         this.webView.loadURL(url);
-    },
-
-    componentsForURL: function(url){
-        var info = this.componentsByURLPath[url.path];
-        if (!info){
-            return [];
-        }
-        return info.ancestors.concat(info.component);
     },
 
     viewDidLayoutSubviews: function(){

@@ -8,7 +8,19 @@ AppDelegate:
 
 MainWindow:
   class: UIRootWindow
-  contentViewController: /NavigationController
+  contentViewController: /SplitViewController
+
+SplitViewController:
+  class: UISplitViewController
+  leadingViewController: /NavigationController
+  view:
+    leadingSize: 300
+    leadingViewOpen: true
+    minimumLeadingSize: 300
+    maximumLeadingSize: 300
+    leadingCollapses: false
+    leadingDividerColor:
+      rgba: 204,204,204
 
 NavigationController:
   class: UINavigationController

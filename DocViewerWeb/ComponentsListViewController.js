@@ -1,5 +1,6 @@
 // #import UIKit
 // #import "WebViewController.js"
+// #import "BetaAccessoryView.js"
 'use strict';
 
 (function(){
@@ -8,6 +9,7 @@ JSClass("ComponentsListViewController", UIListViewController, {
 
     component: null,
     topics: null,
+    initialComponent: null,
 
     // MARK: - View Lifecycle
 
@@ -36,11 +38,17 @@ JSClass("ComponentsListViewController", UIListViewController, {
         if (this._didDisappear){
             this._didDisappear = false;
             this.listView.setSelectedIndexPathAnimated(null);
-        }            
+        }
     },
 
     viewDidAppear: function(animated){
         ComponentsListViewController.$super.viewDidAppear.call(this, animated);
+        if (this.initialComponent !== null && !this.splitViewController.splitView.mainHidden){
+            var viewController = WebViewController.init();
+            viewController.component = this.initialComponent;
+            this.splitViewController.show(viewController);
+            this.initialComponent = null;
+        }
     },
 
     viewWillDisappear: function(animated){
@@ -72,6 +80,11 @@ JSClass("ComponentsListViewController", UIListViewController, {
         }else{
             cell = listView.dequeueReusableCellWithIdentifier('component', indexPath);
             cell.imageView.image = imageByKind[component.kind](component);
+            if (component.beta){
+                cell.accessoryView = BetaAccessoryView.init();
+            }else{
+                cell.accessoryView = null;
+            }
         }
         cell.titleLabel.text = component.name;
         return cell;
@@ -92,18 +105,47 @@ JSClass("ComponentsListViewController", UIListViewController, {
         var topic = this.topics[indexPath.section];
         var component = topic.components[indexPath.row];
         var viewController;
+        var cell = listView.cellAtIndexPath(indexPath);
         if (indexPath.section > 0 && component.children && component.children.length > 0){
             viewController = ComponentsListViewController.initWithSpecName("ComponentsListViewController");
             viewController.component = component;
             viewController.navigationItem.title = component.name;
+            this.navigationController.pushViewController(viewController, true);
         }else{
             viewController = WebViewController.init();
             viewController.component = component;
+            this.splitViewController.show(viewController, cell);
         }
-        this.navigationController.pushViewController(viewController, true);
     },
 
+    splitViewController: JSReadOnlyProperty(),
+
+    getSplitViewController: function(){
+        var ancestor = this.navigationController;
+        while (ancestor !== null && !ancestor.isKindOfClass(UISplitViewController)){
+            ancestor = ancestor.parentViewController;
+        }
+        return ancestor;
+    }
+
 });
+
+JSClass("ComponentsListViewStyler", UIListViewDefaultStyler, {
+
+    updateCell: function(cell, indexPath){
+        ComponentsListViewStyler.$super.updateCell.call(this, cell, indexPath);
+        if (cell.accessoryView){
+            if (cell.selected){
+                cell.accessoryView.color = JSColor.white;
+            }else{
+                cell.accessoryView.color = betaColor;
+            }
+        }
+    }
+
+});
+
+var betaColor = JSColor.initWithRGBA(180/255,111/255,51/255);
 
 var imageByKind = {
     'index': function(){ return images.frameworkIcon; },
