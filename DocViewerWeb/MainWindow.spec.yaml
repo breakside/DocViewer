@@ -200,7 +200,7 @@ MenuButton:
 MainMenu:
   class: UIMenu
   styler:
-    class: UIMenuDefaultStyler
+    class: UIMenuWindowStyler
     highlightColor: /HighlightColor
   items:
     # -

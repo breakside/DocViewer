@@ -109,6 +109,7 @@ JSClass("ComponentsListViewController", UIListViewController, {
         if (indexPath.section > 0 && component.children && component.children.length > 0){
             viewController = ComponentsListViewController.initWithSpecName("ComponentsListViewController");
             viewController.component = component;
+            viewController.initialComponent = component;
             viewController.navigationItem.title = component.name;
             this.navigationController.pushViewController(viewController, true);
         }else{

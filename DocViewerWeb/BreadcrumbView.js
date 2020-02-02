@@ -187,7 +187,7 @@ JSClass("_BreadcrumbPopupButtonStyler", UIPopupButtonStyler, {
 
 });
 
-JSClass("_BreadcrumbMenuStyler", UIMenuDefaultStyler, {
+JSClass("_BreadcrumbMenuStyler", UIMenuWindowStyler, {
 
     updateItemView: function(view, item){
         _BreadcrumbMenuStyler.$super.updateItemView.call(this, view, item);
