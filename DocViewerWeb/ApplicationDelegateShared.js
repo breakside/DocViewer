@@ -82,6 +82,10 @@ JSClass("ApplicationDelegateShared", JSObject, {
         JSUserDefaults.shared.registerDefaults({
             lastComponentPath: null, 
         });
+    },
+
+    applicationDidError: function(application, error){
+
     }
 
 });

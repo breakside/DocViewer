@@ -103,7 +103,7 @@
   </div>
   <script type="text/javascript" src="HTMLAppBootstrapper.js"></script>
   <script type="text/javascript" jskit>
-  /* global HTMLAppBootstrapper */
+  /* global HTMLAppBootstrapper, console */
   'use strict';
   (function(){
     var app = {TEMPLATE: "JSKIT_APP"};
@@ -157,6 +157,15 @@
           statusLabel.innerHTML = "Apologies, but we couldn't start the doc viewer";
           detailsLabel.style.opacity = 1;
           detailsLabel.innerHTML = "Don't worry, it wasn't anything you did, and it isn't something we expect to happen under normal usage.<br>We've notified our engineers of the problem, and the best thing you can do is try again soon.";
+          reportError(bootstrapper.error, bootstrapper.logs);
+          break;
+        case S.appRequiresNoOtherInstances:
+          statusLabel.style.opacity = 1;
+          progress.style.opacity = 0;
+          splash.className = 'error';
+          statusLabel.innerHTML = "Please close all other tabs running this application";
+          detailsLabel.style.opacity = 1;
+          detailsLabel.innerHTML = "In order to upgrade, only a single tab with this application can be running.  After closing other tabs, refresh this page.";
           break;
         case S.appRunning:
           break;
@@ -170,6 +179,51 @@
     };
     bootstrapper.onprogress = function(loaded, total){
       progressBar.style.width = (loaded * 100 / total) + '%';
+    };
+    if (app.debug){
+      bootstrapper.onlog = function(record){
+          console[record.level](formatLog(record));
+      };
+    }
+    var paddedString = function(str, width, padding, right){
+      if (str.length > width){
+        str = str.substr(0, width - 3) + '...';
+      }
+      var i = width - str.length;
+      if (right){
+        while (i > 0){
+          str += padding;
+          --i;
+        }
+      }else{
+        while (i > 0){
+          str = padding + str;
+          --i;
+        }
+      }
+      return str;
+    };
+    var formatLog = function(log){
+      return [
+        formatTime(log.timestamp),
+        paddedString(log.level, 5, ' ', true),
+        paddedString(log.subsystem, 16, ' ', true),
+        paddedString(log.category, 16, ' ', true),
+        log.message
+      ].join(" ");
+    };
+    var formatTime = function(t){
+      var n = Math.round(t * 1000);
+      var f = n % 1000;
+      var d = (n - f) / 1000;
+      var fs = f.toString();
+      var ds = d.toString();
+      return paddedString(ds, 10, '0') + '.' + paddedString(fs, 3, '0');
+    };
+    var reportError = function(error, logs){
+      if (app.debug){
+        console.error(error);
+      }
     };
     window.JSKIT_PREFLIGHT_CONTEXT = bootstrapper;
     bootstrapper.run();
