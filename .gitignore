@@ -1,4 +1,5 @@
 .DS_Store
+.env
 builds/*
 *.sublime-workspace
 node_modules/*

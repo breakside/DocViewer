@@ -5,6 +5,8 @@
 
 (function(){
 
+var logger = JSLog("docviewer", "sidebar");
+
 JSClass("SidebarViewController", UIViewController, {
 
     headerView: null,
@@ -195,6 +197,7 @@ JSClass("SidebarViewController", UIViewController, {
         }else{
             component = this.componentAtIndexPath(indexPath);
         }
+        logger.info("selected component %{public}", component.url);
         if (this.delegate && this.delegate.sidebarViewDidSelectComponent){
             this.delegate.sidebarViewDidSelectComponent(this, component);
         }
@@ -207,7 +210,7 @@ JSClass("SidebarViewController", UIViewController, {
     searchResults: null,
 
     searchChanged: function(searchField){
-        if (searchField.text === null || searchField.text === ''){
+        if (searchFied.text === null || searchField.text === ''){
             this.hideSearchResults();
             return;
         }

@@ -157,7 +157,7 @@
           statusLabel.innerHTML = "Apologies, but we couldn't start the doc viewer";
           detailsLabel.style.opacity = 1;
           detailsLabel.innerHTML = "Don't worry, it wasn't anything you did, and it isn't something we expect to happen under normal usage.<br>We've notified our engineers of the problem, and the best thing you can do is try again soon.";
-          reportError(bootstrapper.error, bootstrapper.logs);
+          reportError(bootstrapper.error, bootstrapper.getLogs());
           break;
         case S.appRequiresNoOtherInstances:
           statusLabel.style.opacity = 1;
@@ -182,47 +182,101 @@
     };
     if (app.debug){
       bootstrapper.onlog = function(record){
-          console[record.level](formatLog(record));
+          console[record.level](formatter.log(record));
       };
     }
-    var paddedString = function(str, width, padding, right){
-      if (str.length > width){
-        str = str.substr(0, width - 3) + '...';
-      }
-      var i = width - str.length;
-      if (right){
-        while (i > 0){
-          str += padding;
-          --i;
-        }
-      }else{
-        while (i > 0){
-          str = padding + str;
-          --i;
-        }
-      }
-      return str;
-    };
-    var formatLog = function(log){
-      return [
-        formatTime(log.timestamp),
-        paddedString(log.level, 5, ' ', true),
-        paddedString(log.subsystem, 16, ' ', true),
-        paddedString(log.category, 16, ' ', true),
-        log.message
-      ].join(" ");
-    };
-    var formatTime = function(t){
-      var n = Math.round(t * 1000);
-      var f = n % 1000;
-      var d = (n - f) / 1000;
-      var fs = f.toString();
-      var ds = d.toString();
-      return paddedString(ds, 10, '0') + '.' + paddedString(fs, 3, '0');
-    };
     var reportError = function(error, logs){
       if (app.debug){
         console.error(error);
+      }
+      var payload = {
+          access_token: app.environment.rollbarToken,
+          data: {
+              environment: app.environment.name,
+              level: "critical",
+              timestamp: Date.now(),
+              platform: "browser",
+              framework: "browser-js",
+              language: "javascript",
+              request: {
+                  url: window.location.origin + window.location.pathname,
+                  user_ip: "$remote_ip"
+              },
+              client: {
+                  timestamp: Date.now(),
+                  javascript: {
+                      browser: navigator.userAgent,
+                      language: navigator.language
+                  }
+              },
+              body: {
+                  telemetry: [],
+                  trace: {
+                      exception: {
+                          class: error.name,
+                          message: error.message,
+                      },
+                      frames: (error.frames || []).reverse()
+                  }
+              }
+          }
+      };
+      var record;
+      for (var i = 0, l = logs.length; i < l; ++i){
+          record = logs[i];
+          payload.data.body.telemetry.push({
+              type: "log",
+              level: record.level,
+              source: "client",
+              timestamp_ms: Math.round(record.timestamp * 1000),
+              body: {
+                  message: formatter.log(record)
+              }
+          });
+      }
+      fetch("https://api.rollbar.com/api/1/item/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+      }).then(function(){}, function(){});
+    };
+    var formatter = {
+      paddedString: function(str, width, padding, right){
+        if (str.length > width){
+          str = str.substr(0, width - 3) + '...';
+        }
+        var i = width - str.length;
+        if (right){
+          while (i > 0){
+            str += padding;
+            --i;
+          }
+        }else{
+          while (i > 0){
+            str = padding + str;
+            --i;
+          }
+        }
+        return str;
+      },
+      log: function(log){
+        return [
+          formatter.timestamp(log.timestamp),
+          formatter.paddedString(log.level, 5, ' ', true),
+          formatter.paddedString(log.subsystem, 16, ' ', true),
+          formatter.paddedString(log.category, 16, ' ', true),
+          log.message
+        ].join(" ");
+      },
+      timestamp: function(t){
+        var n = Math.round(t * 1000);
+        var f = n % 1000;
+        var d = (n - f) / 1000;
+        var fs = f.toString();
+        var ds = d.toString();
+        return formatter.paddedString(ds, 10, '0') + '.' + formatter.paddedString(fs, 3, '0');
       }
     };
     window.JSKIT_PREFLIGHT_CONTEXT = bootstrapper;

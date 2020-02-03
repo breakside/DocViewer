@@ -12,6 +12,9 @@ UIApplicationLaunchOptions:
 UIApplicationSystemFont:    SourceSansPro-Light
 JSDevelopmentLanguage:      en
 UIApplicationIcon:          Icon
+UIApplicationEnvironment:
+  name:                     DOCVIEWERWEB_ENV_NAME
+  rollbarToken:             DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN
 DockerOwner:                breakside
 HMTLManifestConfiguration:
   - components-manifest.json
