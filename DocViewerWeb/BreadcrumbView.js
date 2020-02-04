@@ -189,11 +189,18 @@ JSClass("_BreadcrumbPopupButtonStyler", UIPopupButtonStyler, {
 
 JSClass("_BreadcrumbMenuStyler", UIMenuWindowStyler, {
 
-    updateItemView: function(view, item){
-        _BreadcrumbMenuStyler.$super.updateItemView.call(this, view, item);
-        if (!item.enabled){
-            view.titleLabel.font = item.menu.font.fontWithWeight(JSFont.Weight.bold);
+    createWindowForMenu: function(menu){
+        var window = _BreadcrumbMenuStyler.$super.createWindowForMenu.call(this, menu);
+        var item;
+        var itemView;
+        for (var i = 0, l = menu.items.length; i < l; ++i){
+            item = menu.items[i];
+            itemView = window.menuView.itemViews[i];
+            if (!item.enabled){
+                itemView.titleLabel.font = item.menu.font.fontWithWeight(JSFont.Weight.semibold);
+            }
         }
+        return window;
     }
 
 });
