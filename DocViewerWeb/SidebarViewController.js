@@ -210,7 +210,7 @@ JSClass("SidebarViewController", UIViewController, {
     searchResults: null,
 
     searchChanged: function(searchField){
-        if (searchFied.text === null || searchField.text === ''){
+        if (searchField.text === null || searchField.text === ''){
             this.hideSearchResults();
             return;
         }

@@ -1,5 +1,6 @@
 // Copyright © 2020 Breakside Inc.  MIT License.
 // #import UIKit
+// #import "Rollbar.js"
 'use strict';
 
 JSClass("ApplicationDelegateShared", JSObject, {
@@ -8,9 +9,11 @@ JSClass("ApplicationDelegateShared", JSObject, {
     components: null,
     componentsByURLPath: null,
     initialComponents: null,
+    rollbar: null,
 
     applicationDidFinishLaunching: function(application, launchOptions){
         this.baseURL = application.baseURL;
+        this.setupRollbar(application);
         this.setupDefaults();
         this.setupNotifications();
         this.loadComponents(launchOptions.uistate);
@@ -84,59 +87,12 @@ JSClass("ApplicationDelegateShared", JSObject, {
         });
     },
 
+    setupRollbar: function(application){
+        this.rollbar = Rollbar.initWithAccessToken(application.environment.rollbarToken, application.environment.name);
+    },
+
     applicationDidCrash: function(application, error, logs){
-        var payload = {
-            access_token: application.environment.rollbarToken,
-            data: {
-                uuid: UUID(),
-                environment: application.environment.name,
-                level: "critical",
-                timestamp: Date.now(),
-                platform: "browser",
-                framework: "browser-js",
-                language: "javascript",
-                request: {
-                    url: this.baseURL.encodedString,
-                    user_ip: "$remote_ip"
-                },
-                client: {
-                    timestamp: Date.now(),
-                    javascript: {
-                        browser: navigator.userAgent,
-                        language: navigator.language
-                    }
-                },
-                body: {
-                    telemetry: [],
-                    trace: {
-                        exception: {
-                            class: error.name,
-                            message: error.message,
-                        },
-                        frames: error.frames.reverse()
-                    }
-                }
-            }
-        };
-        var record;
-        for (var i = 0, l = logs.length; i < l; ++i){
-            record = logs[i];
-            payload.data.body.telemetry.push({
-                uuid: UUID(),
-                type: "log",
-                level: record.level,
-                source: "client",
-                timestamp_ms: Math.round(record.timestamp * 1000),
-                body: {
-                    message: JSLog.format(record)
-                }
-            });
-        }
-        var request = JSURLRequest.initWithURL(JSURL.initWithString("https://api.rollbar.com/api/1/item/"));
-        request.method = JSURLRequest.Method.POST;
-        request.setObject(payload);
-        var task = JSURLSession.shared.dataTaskWithRequest(request);
-        task.resume();
-    }
+        this.rollbar.crash(error, logs, this.baseURL);
+    },
 
 });
