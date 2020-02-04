@@ -14,6 +14,7 @@ JSClass("ApplicationDelegateShared", JSObject, {
     applicationDidFinishLaunching: function(application, launchOptions){
         this.baseURL = application.baseURL;
         this.setupRollbar(application);
+        this.setupLogging(application);
         this.setupDefaults();
         this.setupNotifications();
         this.loadComponents(launchOptions.uistate);
@@ -88,11 +89,22 @@ JSClass("ApplicationDelegateShared", JSObject, {
     },
 
     setupRollbar: function(application){
-        this.rollbar = Rollbar.initWithAccessToken(application.environment.rollbarToken, application.environment.name);
+        var accessToken = application.getenv('DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN');
+        var name = application.getenv('DOCVIEWERWEB_ENV_NAME');
+        this.rollbar = Rollbar.initWithAccessToken(accessToken, name);
     },
 
     applicationDidCrash: function(application, error, logs){
         this.rollbar.crash(error, logs, this.baseURL);
     },
+
+    setupLogging: function(application){
+        JSLog.addHandler(this, JSLog.Level.warn);
+        JSLog.addHandler(this, JSLog.Level.error);
+    },
+
+    handleLog: function(record){
+        this.rollbar.log(record, this.baseURL);
+    }
 
 });

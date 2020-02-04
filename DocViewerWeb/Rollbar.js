@@ -13,17 +13,13 @@ JSClass("Rollbar", JSObject, {
         this.endpoint = JSURL.initWithString("https://api.rollbar.com/api/1/item/");
     },
 
-    log: function(record){
-
-    },
-
-    crash: function(error, logs, url){
-        var payload = {
+    payload: function(level, url){
+        return {
             access_token: this.accessToken,
             data: {
                 uuid: UUID(),
                 environment: this.environment,
-                level: "critical",
+                level: level,
                 timestamp: Date.now(),
                 platform: "browser",
                 framework: "browser-js",
@@ -40,21 +36,25 @@ JSClass("Rollbar", JSObject, {
                     }
                 },
                 body: {
-                    telemetry: [],
-                    trace: {
-                        exception: {
-                            class: error.name,
-                            message: error.message,
-                        },
-                        frames: error.frames.reverse()
-                    }
                 }
             }
         };
+    },
+
+    send: function(payload){
+        var request = JSURLRequest.initWithURL(this.endpoint);
+        request.method = JSURLRequest.Method.POST;
+        request.setObject(payload);
+        var task = JSURLSession.shared.dataTaskWithRequest(request);
+        task.resume();
+    },
+
+    telemetry: function(logs){
+        var telemetry = [];
         var record;
         for (var i = 0, l = logs.length; i < l; ++i){
             record = logs[i];
-            payload.data.body.telemetry.push({
+            telemetry.push({
                 uuid: UUID(),
                 type: "log",
                 level: record.level,
@@ -65,11 +65,50 @@ JSClass("Rollbar", JSObject, {
                 }
             });
         }
-        var request = JSURLRequest.initWithURL(this.endpoint);
-        request.method = JSURLRequest.Method.POST;
-        request.setObject(payload);
-        var task = JSURLSession.shared.dataTaskWithRequest(request);
-        task.resume();
+        return telemetry;
+    },
+
+    log: function(record, url){
+        var payload = this.payload(record.level, url);
+        payload.data.timestamp = record.timestamp;
+        var error = null;
+        for (var i = 0, l = record.args.length; i < l && error === null; ++i){
+            if (record.args[i] instanceof Error){
+                error = record.args[i];
+            }
+        }
+        if (error !== null){
+            payload.data.body.trace = {
+                exception: {
+                    class: error.name,
+                    message: error.message,
+                    description: JSLog.formatMessage(record.message, record.args)
+                },
+                frames: error.frames.reverse()
+            };
+        }else{
+            payload.data.body.message = {
+                body: JSLog.formatMessage(record.message, record.args)
+            };
+        }
+        if (record.level === JSLog.Level.error || record.level === JSLog.Level.warn){
+            var logs = JSLog.getRecords();
+            payload.data.body.telemetry = this.telemetry(logs);
+        }
+        this.send(payload);
+    },
+
+    crash: function(error, logs, url){
+        var payload = this.payload("critical", url);
+        payload.data.body.trace = {
+            exception: {
+                class: error.name,
+                message: error.message,
+            },
+            frames: error.frames.reverse()
+        };
+        payload.data.body.telemetry = this.telemetry(logs);
+        this.send(payload);
     }
 
 });

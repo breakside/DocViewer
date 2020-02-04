@@ -103,7 +103,7 @@
   </div>
   <script type="text/javascript" src="HTMLAppBootstrapper.js"></script>
   <script type="text/javascript" jskit>
-  /* global HTMLAppBootstrapper, console */
+  /* global HTMLAppBootstrapper, console, JSLog */
   'use strict';
   (function(){
     var app = {TEMPLATE: "JSKIT_APP"};
@@ -182,7 +182,7 @@
     };
     if (app.debug){
       bootstrapper.onlog = function(record){
-          console[record.level](formatter.log(record));
+        console[record.level](formatter.log(record));
       };
     }
     var reportError = function(error, logs){
@@ -190,9 +190,9 @@
         console.error(error);
       }
       var payload = {
-          access_token: app.environment.rollbarToken,
+          access_token: app.environment.DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN,
           data: {
-              environment: app.environment.name,
+              environment: app.environment.DOCVIEWERWEB_ENV_NAME,
               level: "critical",
               timestamp: Date.now(),
               platform: "browser",

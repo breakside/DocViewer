@@ -25,6 +25,7 @@ window.HTMLAppBootstrapper = function(rootElement, jskitapp){
     this.application = null;
     this.error = null;
     this.logs = [];
+    this.debug = jskitapp.debug;
     window.JSGlobalObject = window;
 };
 
@@ -177,6 +178,11 @@ HTMLAppBootstrapper.prototype = {
             this._copyLogsToJSLog();
             this._recordLog = this._recordLogJSLog;
             this.getLogs = this._getLogsJSLog;
+            if (!this.debug){
+                window.JSLog.configure({print: false}, window.JSLog.Level.debug);
+                window.JSLog.configure({print: false}, window.JSLog.Level.info);
+                window.JSLog.configure({print: false}, window.JSLog.Level.log);
+            }
         }
         try{
             this.setStatus(HTMLAppBootstrapper.STATUS.appRunning);
@@ -236,7 +242,13 @@ HTMLAppBootstrapper.prototype = {
         this.log_info("status", this.status + " -> " + status);
         this.status = status;
         var bootstrapper = this;
-        if (this.statusDispatchTimeoutID === null){
+        if (status === HTMLAppBootstrapper.STATUS.appRunning || status === HTMLAppBootstrapper.STATUS.appLaunched){
+            if (this.statusDispatchTimeoutID !== null){
+                clearTimeout(this.statusDispatchTimeoutID);
+                this.statusDispatchTimeoutID = null;
+            }
+            bootstrapper.onstatus();
+        }else if (this.statusDispatchTimeoutID === null){
             this.statusDispatchTimeoutID = setTimeout(function HTMLAppBootstrapper_dispatchStatusChanged(){
                 bootstrapper.statusDispatchTimeoutID = null;
                 bootstrapper.onstatus();
