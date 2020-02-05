@@ -212,6 +212,10 @@ MainMenu:
       action: reportAnIssue
       target: /MainViewController
     -
+      title: .mainMenu.source
+      action: showSourceCode
+      target: /MainViewController
+    -
       separator: true
     -
       title: .mainMenu.about

@@ -560,4 +560,42 @@ HTMLAppBootstrapper.prototype = {
 
 };
 
+HTMLAppBootstrapper.formatter = {
+    paddedString: function(str, width, padding, right){
+        if (str.length > width){
+            str = str.substr(0, width - 3) + '...';
+        }
+        var i = width - str.length;
+        if (right){
+            while (i > 0){
+                str += padding;
+                --i;
+            }
+        }else{
+            while (i > 0){
+                str = padding + str;
+                --i;
+            }
+        }
+        return str;
+    },
+    log: function(log){
+        return [
+            HTMLAppBootstrapper.formatter.timestamp(log.timestamp),
+            HTMLAppBootstrapper.formatter.paddedString(log.level, 5, ' ', true),
+            HTMLAppBootstrapper.formatter.paddedString(log.subsystem, 16, ' ', true),
+            HTMLAppBootstrapper.formatter.paddedString(log.category, 16, ' ', true),
+            log.message
+        ].join(" ");
+    },
+    timestamp: function(t){
+        var n = Math.round(t * 1000);
+        var f = n % 1000;
+        var d = (n - f) / 1000;
+        var fs = f.toString();
+        var ds = d.toString();
+        return HTMLAppBootstrapper.formatter.paddedString(ds, 10, '0') + '.' + HTMLAppBootstrapper.formatter.paddedString(fs, 3, '0');
+    }
+};
+
 })();
