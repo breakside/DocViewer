@@ -5,6 +5,7 @@ JSClass("Rollbar", JSObject, {
 
     accessToken: null,
     environment: null,
+    codeVersion: null,
     endpoint: null,
 
     initWithAccessToken: function(accessToken, environment){
@@ -14,7 +15,7 @@ JSClass("Rollbar", JSObject, {
     },
 
     payload: function(level, url){
-        return {
+        var payload = {
             access_token: this.accessToken,
             data: {
                 uuid: UUID(),
@@ -39,6 +40,10 @@ JSClass("Rollbar", JSObject, {
                 }
             }
         };
+        if (this.codeVersion !== null){
+            payload.data.code_version = this.codeVersion;
+        }
+        return payload;
     },
 
     send: function(payload){

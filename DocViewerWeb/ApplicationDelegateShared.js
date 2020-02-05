@@ -92,6 +92,9 @@ JSClass("ApplicationDelegateShared", JSObject, {
         var accessToken = application.getenv('DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN');
         var name = application.getenv('DOCVIEWERWEB_ENV_NAME');
         this.rollbar = Rollbar.initWithAccessToken(accessToken, name);
+        if (application.bundle.info.GitRevision){
+            this.rollbar.codeVersion = application.bundle.info.GitRevision;
+        }
     },
 
     applicationDidCrash: function(application, error, logs){
