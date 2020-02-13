@@ -9,6 +9,7 @@ JSClass("AboutWindowController", UIWindowController, {
     versionLabel: null,
     copyrightLabel: null,
     creditLabel: null,
+    sourceLabel: null,
 
     viewDidLoad: function(){
         AboutWindowController.$super.viewDidLoad.call(this);
@@ -16,6 +17,7 @@ JSClass("AboutWindowController", UIWindowController, {
         this.versionLabel.text = JSBundle.mainBundle.info.JSBundleVersion;
         this.copyrightLabel.text = JSBundle.mainBundle.localizedStringForInfoKey("JSCopyright");
         this.creditLabel.attributedText = this.attributedCredit();
+        this.sourceLabel.attributedText = this.attributedSource();
     },
 
     attributedCredit: function(){
@@ -24,6 +26,13 @@ JSClass("AboutWindowController", UIWindowController, {
         var url = JSURL.initWithString("https://jskit.dev");
         attributedCredit.replaceFormat("JSKit", {link: url, bold: true, cursor: UICursor.pointingHand});
         return attributedCredit;
-    }
+    },
+
+    attributedSource: function(){
+        var localizedSource = JSBundle.mainBundle.localizedString("source", "AboutWindowController");
+        var url = JSURL.initWithString("https://github.com/breakside/DocViewer");
+        var attributedSource = JSAttributedString.initWithString(localizedSource, {link: url, cursor: UICursor.pointingHand});
+        return attributedSource;
+    },
 
 });

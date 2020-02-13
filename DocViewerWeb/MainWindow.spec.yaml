@@ -214,7 +214,7 @@ MainMenu:
     -
       title: .mainMenu.source
       action: showSourceCode
-      target: /MainViewController
+      target: /ContentViewController
     -
       separator: true
     -

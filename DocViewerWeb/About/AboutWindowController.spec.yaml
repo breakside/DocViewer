@@ -14,6 +14,7 @@ AboutWindowController:
     versionLabel: /VersionLabel
     copyrightLabel: /CopyrightLabel
     creditLabel: /CreditLabel
+    sourceLabel: /SourceLabel
 
 StackView:
   class: UIStackView
@@ -25,6 +26,7 @@ StackView:
     - /VersionLabel
     - /CopyrightLabel
     - /CreditLabel
+    - /SourceLabel
 
 IconView:
   class: UIImageView
@@ -58,6 +60,14 @@ CopyrightLabel:
     size: detail
 
 CreditLabel:
+  class: UILabel
+  textAlignment: center
+  textColor: /TextColor
+  lines: 1
+  font:
+    size: detail
+
+SourceLabel:
   class: UILabel
   textAlignment: center
   textColor: /TextColor

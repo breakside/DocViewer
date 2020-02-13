@@ -9,6 +9,7 @@ JSClass("ContentViewController", UIViewController, {
     menuButton: null,
     webView: null,
     delegate: null,
+    component: null,
 
     initWithSpec: function(spec){
         ContentViewController.$super.initWithSpec.call(this, spec);
@@ -32,6 +33,7 @@ JSClass("ContentViewController", UIViewController, {
     webViewDidLoadURL: function(webView, url){
         var components = UIApplication.shared.delegate.componentsForURL(url);
         this.breadcrumbView.setComponents(components);
+        this.component = components[components.length - 1];
         JSNotificationCenter.shared.post("io.breakside.DocViewer.DocumentViewed", this, {url: url});
     },
 
@@ -47,6 +49,18 @@ JSClass("ContentViewController", UIViewController, {
         this.menuButton.frame = JSRect(this.view.bounds.size.width - buttonSize - this.menuButtonInsets.right, this.menuButtonInsets.top, buttonSize, buttonSize);
         this.breadcrumbView.frame = JSRect(0, 0, this.menuButton.frame.origin.x - this.menuButtonInsets.left, headerHeight - 1);
         this.webView.frame = JSRect(0, headerHeight, this.view.bounds.size.width, this.view.bounds.size.height - headerHeight);
+    },
+
+    canPerformAction: function(action, sender){
+        if (action == 'showSourceCode'){
+            return this.component && this.component.codeURL;
+        }
+        return ContentViewController.$super.canPerformAction.call(this, action, sender);
+    },
+
+    showSourceCode: function(){
+        var url = JSURL.initWithString(this.component.codeURL);
+        UIApplication.shared.openURL(url);
     }
 
 });

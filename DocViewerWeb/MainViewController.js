@@ -54,11 +54,6 @@ JSClass("MainViewController", UISplitViewController, {
     reportAnIssue: function(){
         var url = JSURL.initWithString("https://github.com/breakside/JSKit/issues");
         UIApplication.shared.openURL(url);
-    },
-
-    showSourceCode: function(){
-        var url = JSURL.initWithString("https://github.com/breakside/JSKit/DocViewer");
-        UIApplication.shared.openURL(url);
     }
 
 });
