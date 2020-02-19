@@ -1,3 +1,4 @@
+// Copyright © 2020 Breakside Inc.  MIT License.
 // #import Foundation
 'use strict';
 
