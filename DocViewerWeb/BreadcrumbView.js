@@ -189,6 +189,12 @@ JSClass("_BreadcrumbPopupButtonStyler", UIPopupButtonStyler, {
 
 JSClass("_BreadcrumbMenuStyler", UIMenuWindowStyler, {
 
+    init: function(){
+        _BreadcrumbMenuStyler.$super.init.call(this);
+        this.itemContentInsets.top = 3;
+        this.itemContentInsets.bottom = 3;
+    },
+
     createWindowForMenu: function(menu){
         var window = _BreadcrumbMenuStyler.$super.createWindowForMenu.call(this, menu);
         var item;
