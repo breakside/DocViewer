@@ -4,10 +4,10 @@
 
 JSClass("ContentViewController", UIViewController, {
 
-    headerView: null,
-    breadcrumbView: null,
-    menuButton: null,
-    webView: null,
+    headerView: JSOutlet(),
+    breadcrumbView: JSOutlet(),
+    menuButton: JSOutlet(),
+    webView: JSOutlet(),
     delegate: null,
     component: null,
 

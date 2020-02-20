@@ -4,12 +4,12 @@
 
 JSClass("AboutWindowController", UIWindowController, {
 
-    iconView: null,
-    titleLabel: null,
-    versionLabel: null,
-    copyrightLabel: null,
-    creditLabel: null,
-    sourceLabel: null,
+    iconView: JSOutlet(),
+    titleLabel: JSOutlet(),
+    versionLabel: JSOutlet(),
+    copyrightLabel: JSOutlet(),
+    creditLabel: JSOutlet(),
+    sourceLabel: JSOutlet(),
 
     viewDidLoad: function(){
         AboutWindowController.$super.viewDidLoad.call(this);

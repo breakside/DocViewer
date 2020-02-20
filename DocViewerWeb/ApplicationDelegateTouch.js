@@ -5,9 +5,9 @@
 
 JSClass("ApplicationDelegateTouch", ApplicationDelegateShared, {
 
-    window: null,
-    splitViewController: null,
-    navigationController: null,
+    window: JSOutlet(),
+    splitViewController: JSOutlet(),
+    navigationController: JSOutlet(),
 
     applicationDidFinishLaunching: function(application, launchOptions){
         ApplicationDelegateTouch.$super.applicationDidFinishLaunching.call(this, application, launchOptions);

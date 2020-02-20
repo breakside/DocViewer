@@ -4,10 +4,10 @@
 
 JSClass("ApplicationDelegate", ApplicationDelegateShared, {
 
-    window: null,
-    mainViewController: null,
-    sidebarViewController: null,
-    contentViewController: null,
+    window: JSOutlet(),
+    mainViewController: JSOutlet(),
+    sidebarViewController: JSOutlet(),
+    contentViewController: JSOutlet(),
 
     applicationDidFinishLaunching: function(application, launchOptions){
         ApplicationDelegate.$super.applicationDidFinishLaunching.call(this, application, launchOptions);

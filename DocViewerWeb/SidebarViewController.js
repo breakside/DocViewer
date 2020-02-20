@@ -9,9 +9,9 @@ var logger = JSLog("docviewer", "sidebar");
 
 JSClass("SidebarViewController", UIViewController, {
 
-    headerView: null,
-    searchField: null,
-    outlineView: null,
+    headerView: JSOutlet(),
+    searchField: JSOutlet(),
+    outlineView: JSOutlet(),
     delegate: null,
     root: null,
     components: null,
@@ -283,7 +283,7 @@ JSClass("SidebarViewController", UIViewController, {
 
     // MARK: - Update Available
 
-    updateButton: null,
+    updateButton: JSOutlet(),
 
     indicateUpdateAvailable: function(){
         if (!this.updateButton.hidden){

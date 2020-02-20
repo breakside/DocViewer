@@ -6,8 +6,8 @@
 JSClass("MainViewController", UISplitViewController, {
 
     baseURL: null,
-    sidebarViewController: null,
-    contentViewController: null,
+    sidebarViewController: JSOutlet(),
+    contentViewController: JSOutlet(),
     components: null,
 
     // --------------------------------------------------------------------
