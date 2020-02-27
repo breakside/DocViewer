@@ -214,7 +214,7 @@
                   telemetry: [],
                   trace: {
                       exception: {
-                          class: error.name,
+                          class: error.name || 'Error',
                           message: error.message,
                       },
                       frames: (error.frames || []).reverse()
