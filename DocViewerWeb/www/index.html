@@ -206,6 +206,8 @@
               client: {
                   timestamp: Date.now(),
                   javascript: {
+                      source_map_enabled: true,
+                      code_version: app.gitRevision,
                       browser: navigator.userAgent,
                       language: navigator.language
                   }

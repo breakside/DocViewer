@@ -46,6 +46,7 @@ JSClass("Rollbar", JSObject, {
                 client: {
                     timestamp: Date.now(),
                     javascript: {
+                        source_map_enabled: true,
                         browser: navigator.userAgent,
                         language: navigator.language
                     }
@@ -55,7 +56,7 @@ JSClass("Rollbar", JSObject, {
             }
         };
         if (this.codeVersion !== null){
-            payload.data.code_version = this.codeVersion;
+            payload.data.code_version = payload.data.client.javascript.code_version = this.codeVersion;
         }
         return payload;
     },
