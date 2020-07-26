@@ -36,6 +36,7 @@ JSClass("MainViewController", UISplitViewController, {
         MainViewController.$super.viewDidAppear.call(this);
         if (this.initialComponent){
             this.sidebarViewController.selectComponent(this.initialComponent);
+            this.contentViewController.showComponent(this.initialComponent);
             this.initialComponent = null;
         }
     },
