@@ -78,6 +78,7 @@ CreditLabel:
   textAlignment: center
   textColor: /TextColor
   lines: 1
+  userInteractionEnabled: true
   font:
     size: detail
 
@@ -86,6 +87,7 @@ SourceLabel:
   textAlignment: center
   textColor: /TextColor
   lines: 1
+  userInteractionEnabled: true
   font:
     size: detail
 
