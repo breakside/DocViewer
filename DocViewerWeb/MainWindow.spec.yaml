@@ -122,6 +122,7 @@ SearchField:
     cornerRadius: 3
     textColor: {blendBase: /SidebarColor, with: black, percent: 80}
     textInsets: 4,3
+    showsFocusRing: false
   actions:
     - {target: /SidebarViewController, action: searchChanged, event: editingChanged}
 
