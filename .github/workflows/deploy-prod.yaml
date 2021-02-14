@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - prod
+
+env:
+  IMAGE_OWNER: breakside
+  IMAGE_NAME: docviewerweb
+  ECR_HOST: 965421771915.dkr.ecr.us-east-1.amazonaws.com
+  IMAGE_TAG: prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: DocViewer
+
+      - name: Checkout JSKit
+        uses: actions/checkout@v2
+        with:
+          repository: breakside/JSKit
+          ref: prod
+          path: JSKit
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+
+      - name: Bootstrap Install JSKit
+        run: npm install
+        working-directory: JSKit
+
+      - name: Generate Docs
+        run: npx jskit doc Documentation/Code/JSKit.doc.yaml ../DocViewer/DocViewerWeb
+        working-directory: JSKit
+
+      - name: Bootstrap Install DocViewer
+        run: npm install
+        working-directory: DocViewer
+
+      - name: Build
+        run: npx jskit make DocViewerWeb --env DocViewerWeb/production.env --docker-owner $IMAGE_OWNER --docker-image $IMAGE_NAME --docker-tag $IMAGE_TAG
+        working-directory: DocViewer
+
+      - name: ECR Login
+        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_HOST
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+
+      - name: Tag
+        run: docker tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
+
+      - name: Push
+        run: docker push $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
