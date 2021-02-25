@@ -1,6 +1,6 @@
 JSBundleType:               html
 JSBundleIdentifier:         io.breakside.DocViewerWeb
-JSBundleVersion:            2021.8.3
+JSBundleVersion:            2021.8.4
 JSCopyright:                .copyright
 UIMainSpec:
   default:                  MainWindow
@@ -12,9 +12,6 @@ UIApplicationLaunchOptions:
 UIApplicationSystemFont:    SourceSansPro-Light
 JSDevelopmentLanguage:      en
 UIApplicationIcon:          Icon
-UIApplicationEnvironment:
-  - DOCVIEWERWEB_ENV_NAME
-  - DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN
 DockerOwner:                breakside
 HMTLManifestConfiguration:
   - components-manifest.json
