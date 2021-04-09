@@ -49,8 +49,8 @@ jobs:
       - name: ECR Login
         run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_HOST
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_PUBLIC }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY_PUBLIC }}
 
       - name: Tag
         run: docker tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
