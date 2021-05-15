@@ -6,9 +6,6 @@ UIMainSpec:
   default:                  MainWindow
   touch:                    MainWindowTouch
 UIApplicationTitle:         .applicationTitle
-UIApplicationLaunchOptions:
-  uistate: {kind: positional, default: null}
-  others: {kind: unknown}
 UIApplicationSystemFont:    SourceSansPro-Light
 JSDevelopmentLanguage:      en
 UIApplicationIcon:          Icon

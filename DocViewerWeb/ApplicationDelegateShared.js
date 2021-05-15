@@ -30,7 +30,7 @@ JSClass("ApplicationDelegateShared", JSObject, {
         this.setupLogging(application);
         this.setupDefaults();
         this.setupNotifications();
-        this.loadComponents(launchOptions.uistate);
+        this.loadComponents(application.state.path);
     },
 
     loadComponents: function(componentPath){
