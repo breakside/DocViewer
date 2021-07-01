@@ -1,6 +1,6 @@
 FROM alpine:3
 
-RUN apk -U add nginx && mkdir /run/nginx
+RUN apk -U add nginx
 
 COPY DocViewerWeb /DocViewerWeb
 
