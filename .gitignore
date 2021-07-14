@@ -6,5 +6,4 @@ node_modules/*
 DocViewerWeb/www/docs
 DocViewerWeb/components.json
 DocViewerWeb/components-manifest.json
-DocViewerWeb/conf/debug/*.crt
-DocViewerWeb/conf/debug/*.key
+tls/*
