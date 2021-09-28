@@ -61,14 +61,14 @@ TitleLabel:
 VersionLabel:
   class: UILabel
   textAlignment: center
-  textColor: /TextColor
+  textColor: secondaryText
   font:
     size: detail
 
 CopyrightLabel:
   class: UILabel
   textAlignment: center
-  textColor: /TextColor
+  textColor: secondaryText
   lines: 2
   font:
     size: detail
@@ -76,7 +76,7 @@ CopyrightLabel:
 CreditLabel:
   class: UILabel
   textAlignment: center
-  textColor: /TextColor
+  textColor: secondaryText
   lines: 1
   userInteractionEnabled: true
   font:
@@ -85,12 +85,8 @@ CreditLabel:
 SourceLabel:
   class: UILabel
   textAlignment: center
-  textColor: /TextColor
+  textColor: secondaryText
   lines: 1
   userInteractionEnabled: true
   font:
     size: detail
-
-TextColor:
-  class: JSColor
-  rgba: 102,102,102

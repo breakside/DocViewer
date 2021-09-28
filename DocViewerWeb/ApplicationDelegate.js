@@ -32,6 +32,14 @@ JSClass("ApplicationDelegate", ApplicationDelegateShared, {
 
     applicationUpdateAvailable: function(application){
         this.mainViewController.indicateUpdateAvailable();
+    },
+
+    setupColors: function(){
+        ApplicationDelegate.$super.setupColors.call(this);
+        JSColorSpace.ui.setStylesForName("rootBackground", JSColor.jskitPurple, JSColor.initWithWhite(0.075));
+        JSColorSpace.ui.setStylesForName("sidebar", JSColor.initWithRGBA(204/255,204/255,234/255), JSColor.background.colorLightenedByPercentage(0.1));
+        JSColorSpace.ui.setStylesForName("sidebarSearch", JSColor.white.colorWithAlpha(0.4), JSColor.white.colorWithAlpha(0.1));
+        JSColorSpace.ui.setStylesForName("sidebarDivider", JSColor.initWithRGBA(152/255,152/255,203/255), JSColor.black);
     }
 
 });

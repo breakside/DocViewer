@@ -22,14 +22,12 @@ AppDelegate:
     sidebarViewController: /SidebarViewController
     contentViewController: /ContentViewController
 
-LineColor:
-  rgba: 152,152,203
-
 MainWindow:
   class: UIRootWindow
   contentViewController: /MainViewController
   firstResponder: /SidebarOutlineView
   shouldReceiveTrackingInBack: true
+  backgroundColor: rootBackground
 
 MainViewController:
   class: MainViewController
@@ -39,7 +37,7 @@ MainViewController:
     vertical: false
     leadingSize: 240
     leadingViewOpen: true
-    leadingDividerColor: /LineColor
+    leadingDividerColor: sidebarDivider
     autosaveName: MainView
   outlets:
     sidebarViewController: /SidebarViewController
@@ -48,16 +46,10 @@ MainViewController:
 # -------------------------------------------------------------------------
 # Sidebar
 
-SidebarColor:
-  rgba: 204,204,234
-
-HighlightColor:
-  rgba: 90,90,200
-
 SidebarViewController:
   class: SidebarViewController
   view:
-    backgroundColor: /SidebarColor
+    backgroundColor: sidebar
     subviews:
       - /SidebarOutlineView
       - /SidebarHeaderView
@@ -71,10 +63,7 @@ SidebarViewController:
 
 SidebarHeaderView:
   class: UIView
-  backgroundColor: /SidebarColor
-  borderWidth: 0
-  borderColor: /LineColor
-  maskedBorders: $UILayer.Sides.maxY
+  backgroundColor: sidebar
   subviews:
     - /UpdateButton
     - /SearchField
@@ -89,7 +78,7 @@ UpdateButton:
   styler:
     class: UIButtonCustomStyler
     normalTitleColor: white
-    normalBackgroundColor: /HighlightColor
+    normalBackgroundColor: highlight
     cornerRadius: 3
   target: /SidebarViewController
   action: update
@@ -110,17 +99,21 @@ SearchField:
     action: clearSearch
     styler:
       class: UIButtonCustomStyler
-      normalTitleColor: {blendBase: /SidebarColor, with: black, percent: 30}
+      normalTitleColor:
+        space: ui
+        name: text
+        alpha: 0.3
   rightAccessoryVisibility: onlyWhenNotEmpty
   font:
     size: detail
   styler:
     class: UITextFieldCustomStyler
-    localCursorColor: /HighlightColor
-    leftAccessoryColor: {blendBase: /SidebarColor, with: black, percent: 30}
-    backgroundColor: {blendBase: /SidebarColor, with: white, percent: 40}
+    leftAccessoryColor:
+      space: ui
+      name: text
+      alpha: 0.3
+    backgroundColor: sidebarSearch
     cornerRadius: 3
-    textColor: {blendBase: /SidebarColor, with: black, percent: 80}
     textInsets: 4,3
     showsFocusRing: false
   actions:
@@ -143,8 +136,8 @@ SidebarOutlineView:
         cellFont:
           size: detail
           weight: bold
-        cellTextColor: {blendBase: /SidebarColor, with: black, percent: 60}
-        cellBackgroundColor: /SidebarColor
+        cellTextColor: secondaryText
+        cellBackgroundColor: sidebar
 
   styler:
     class: SidebarOutlineViewStyler
@@ -153,11 +146,10 @@ SidebarOutlineView:
     accessoryInsets: 0,4
     cellFont:
       size: detail
-    selectedCellBackgroundColor: /HighlightColor
-    cellBackgroundColor: /SidebarColor
+    selectedCellBackgroundColor: highlight
+    cellBackgroundColor: sidebar
     cellContentInsets: 0,5
     cellContentCornerRadius: 3
-    disclosureColor: {blendBase: /SidebarColor, with: black, percent: 60}
 
 # -------------------------------------------------------------------------
 # Content
@@ -183,8 +175,11 @@ ContentHeader:
   class: UIView
   borderWidth: 1
   maskedBorders: maxY
+  backgroundColor: background
   borderColor:
-    rgba: 240,240,240
+    space: ui
+    name: text
+    alpha: 0.1
   subviews:
     - /BreadcrumbView
     - /MenuButton
@@ -193,7 +188,6 @@ BreadcrumbView:
   class: BreadcrumbView
   target: /ContentViewController
   action: showComponent
-  highlightColor: /HighlightColor
 
 MenuButton:
   class: UIPopupButton
@@ -203,11 +197,17 @@ MenuButton:
     class: UIPopupButtonImageStyler
     cornerRadius: 3
     normalColor:
-      rgba: 164,164,164
+      space: ui
+      name: text
+      alpha: 0.5
     overBackgroundColor:
-      rgba: 240,240,240
+      space: ui
+      name: text
+      alpha: 0.1
     activeBackgroundColor:
-      rgba: 204,204,204
+      space: ui
+      name: text
+      alpha: 0.2
   image:
     name: Dots
     renderMode: template
@@ -217,7 +217,6 @@ MainMenu:
   class: UIMenu
   styler:
     class: UIMenuWindowStyler
-    highlightColor: /HighlightColor
   items:
     # -
     #   title: .mainMenu.downloadAll

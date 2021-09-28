@@ -41,6 +41,14 @@ JSClass("ApplicationDelegateTouch", ApplicationDelegateShared, {
         }
         viewController.initialComponent = component;
         this.window.makeKeyAndOrderFront();
+    },
+
+    setupColors: function(){
+        ApplicationDelegateTouch.$super.setupColors.call(this);
+        JSColorSpace.ui.setColorForName("rootBackground", JSColor.window);
+        JSColorSpace.ui.setStylesForName("navbar", JSColor.jskitPurple, JSColor.initWithWhite(0.075));
+        JSColorSpace.ui.setStylesForName("listHeader", JSColor.initWithWhite(0.94), JSColor.initWithWhite(0.2));
+        JSColorSpace.ui.setStylesForName("sidebarDivider", JSColor.initWithWhite(0.92), JSColor.black);
     }
 
 });

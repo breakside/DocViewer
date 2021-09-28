@@ -28,6 +28,7 @@ JSClass("ApplicationDelegateShared", JSObject, {
         this.baseURL = application.baseURL;
         this.setupRollbar(application);
         this.setupLogging(application);
+        this.setupColors();
         this.setupDefaults();
         this.setupNotifications();
         this.loadComponents(application.state.path);
@@ -93,6 +94,11 @@ JSClass("ApplicationDelegateShared", JSObject, {
             window.history.replaceState(null, title, url.path);
             document.title = title;
         }
+    },
+
+    setupColors: function(){
+        JSColor.jskitPurple = JSColor.initWithRGBA(90/255,90/255,200/255);
+        JSColor.highlight = JSColor.jskitPurple;
     },
 
     setupDefaults: function(){

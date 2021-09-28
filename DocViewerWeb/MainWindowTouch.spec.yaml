@@ -23,6 +23,7 @@ AppDelegate:
 MainWindow:
   class: UIRootWindow
   contentViewController: /SplitViewController
+  backgroundColor: rootBackground
 
 SplitViewController:
   class: UISplitViewController
@@ -33,8 +34,7 @@ SplitViewController:
     minimumLeadingSize: 300
     maximumLeadingSize: 300
     leadingCollapses: false
-    leadingDividerColor:
-      rgba: 204,204,204
+    leadingDividerColor: sidebarDivider
 
 NavigationController:
   class: UINavigationController
@@ -42,13 +42,5 @@ NavigationController:
   navigationBar:
     styler:
       class: UINavigationBarDefaultStyler
-      backgroundColor: /PrimaryColor
+      backgroundColor: navbar
       titleColor: white
-      contentSeparatorWidth: 1
-      contentSeparatorColor:
-        blendBase: /PrimaryColor
-        with: black
-        percent: 30
-
-PrimaryColor:
-  rgba: 90,90,200
