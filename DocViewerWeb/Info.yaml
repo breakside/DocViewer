@@ -1,6 +1,6 @@
 JSBundleType:               html
 JSBundleIdentifier:         io.breakside.DocViewerWeb
-JSBundleVersion:            2021.42.0
+JSBundleVersion:            2021.46.0
 JSCopyright:                .copyright
 UIMainSpec:
   default:                  MainWindow
