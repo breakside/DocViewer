@@ -196,62 +196,17 @@
       if (app.debug){
         console.error(error);
       }
-      var payload = {
-          access_token: app.environment.DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN,
-          data: {
-              environment: app.environment.DOCVIEWERWEB_ENV_NAME,
-              level: "critical",
-              timestamp: Date.now(),
-              platform: "browser",
-              framework: "browser-js",
-              language: "javascript",
-              code_version: app.gitRevision,
-              request: {
-                  url: window.location.origin + window.location.pathname,
-                  user_ip: "$remote_ip"
-              },
-              client: {
-                  timestamp: Date.now(),
-                  javascript: {
-                      source_map_enabled: true,
-                      code_version: app.gitRevision,
-                      browser: navigator.userAgent,
-                      language: navigator.language
-                  }
-              },
-              body: {
-                  telemetry: [],
-                  trace: {
-                      exception: {
-                          class: error.name,
-                          message: error.message,
-                      },
-                      frames: (error.frames || []).reverse()
-                  }
-              }
-          }
-      };
-      var record;
-      for (var i = 0, l = logs.length; i < l; ++i){
-          record = logs[i];
-          payload.data.body.telemetry.push({
-              type: "log",
-              level: record.level,
-              source: "client",
-              timestamp_ms: Math.round(record.timestamp * 1000),
-              body: {
-                  message: HTMLAppBootstrapper.formatter.log(record)
-              }
-          });
-      }
-      fetch("https://api.rollbar.com/api/1/item/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload)
-      }).then(function(){}, function(){});
+      _telemetry("crash", error.toString(), {stack: error.stack, logs: logs});
     };
+    if (app.environment.TELEMETRY_CLIENT_KEY){
+      (function(w, d){
+        var key = app.environment.TELEMETRY_CLIENT_KEY;
+        var s = d.createElement("script"); s.async = true; s.src = "https://api.telemetry.rocketlaunch.studio/client/telemetry.js"; s.setAttribute("data-key", key);
+        var e = (d.currentScript || d.head.childNodes[d.head.childNodes.length - 1]); e.parentNode.insertBefore(s, e);
+      })(window, document);
+    }
+    window._telemetry = function(){ _telemetry.q.push(arguments); }; _telemetry.q = [];
+    _telemetry("setting", "version", app.bundleVersion);
     window.JSKIT_PREFLIGHT_CONTEXT = bootstrapper;
     bootstrapper.run();
   })();

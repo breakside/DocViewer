@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // #import UIKit
-// #import "Rollbar.js"
+// #import TelemetryClient
 'use strict';
 
 JSClass("ApplicationDelegateShared", JSObject, {
@@ -22,12 +22,11 @@ JSClass("ApplicationDelegateShared", JSObject, {
     components: null,
     componentsByURLPath: null,
     initialComponents: null,
-    rollbar: null,
+    telemetry: null,
 
     applicationDidFinishLaunching: function(application, launchOptions){
         this.baseURL = application.baseURL;
-        this.setupRollbar(application);
-        this.setupLogging(application);
+        this.setupTelemetry(application);
         this.setupColors();
         this.setupDefaults();
         this.setupNotifications();
@@ -107,26 +106,12 @@ JSClass("ApplicationDelegateShared", JSObject, {
         });
     },
 
-    setupRollbar: function(application){
-        var accessToken = application.environment.get('DOCVIEWERWEB_ROLLBAR_CLIENT_TOKEN');
-        var name = application.environment.get('DOCVIEWERWEB_ENV_NAME');
-        this.rollbar = Rollbar.initWithAccessToken(accessToken, name);
-        if (application.bundle.info.GitRevision){
-            this.rollbar.codeVersion = application.bundle.info.GitRevision;
-        }
+    setupTelemetry: function(application){
+        this.telemetry = TelemetryClient.initWithKey(application.environment.get("TELEMETRY_CLIENT_KEY"));
     },
 
     applicationDidCrash: function(application, error, logs){
-        this.rollbar.crash(error, logs, this.baseURL);
+        this.telemetry.crash(error, logs);
     },
-
-    setupLogging: function(application){
-        JSLog.addHandler(this, JSLog.Level.warn);
-        JSLog.addHandler(this, JSLog.Level.error);
-    },
-
-    handleLog: function(record){
-        this.rollbar.log(record, this.baseURL);
-    }
 
 });

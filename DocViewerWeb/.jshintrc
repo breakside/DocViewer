@@ -1,8 +1,5 @@
 {
     "browser": true,
     "esversion": 6,
-    "strict": "global",
-    "predef": [
-        "Rollbar"
-    ]
+    "strict": "global"
 }
