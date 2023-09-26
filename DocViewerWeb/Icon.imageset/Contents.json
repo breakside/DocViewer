@@ -15,6 +15,62 @@
         {
             "filename": "icon.svg",
             "vector": true
+        },
+        {
+            "filename": "InstalledIcon32.png",
+            "use": "app-icon"
+        },
+        {
+            "filename": "InstalledIcon64.png",
+            "use": "app-icon"
+        },
+        {
+            "filename": "InstalledIcon128.png",
+            "use": "app-icon"
+        },
+        {
+            "filename": "InstalledIcon256.png",
+            "use": "app-icon"
+        },
+        {
+            "filename": "InstalledIcon512.png",
+            "use": "app-icon"
+        },
+        {
+            "filename": "InstalledIcon1024.png",
+            "use": "app-icon"
+        },
+        {
+            "filename": "InstalledIconBase.svg",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase32.png",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase64.png",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase128.png",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase256.png",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase512.png",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase1024.png",
+            "use": "app-icon-base"
+        },
+        {
+            "filename": "InstalledIconBase.svg",
+            "use": "app-icon-base"
         }
     ]
 }

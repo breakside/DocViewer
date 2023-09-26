@@ -1,0 +1,9 @@
+{
+    "lang": "en",
+    "name": "JSKit Documentation",
+    "short_name": "JSKit Docs",
+    "scope": "/",
+    "start_url": "/",
+    "display": "standalone",
+    "shortcuts": []
+}
