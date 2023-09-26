@@ -41,8 +41,8 @@
             "use": "app-icon"
         },
         {
-            "filename": "InstalledIconBase.svg",
-            "use": "app-icon-base"
+            "filename": "InstalledIcon.svg",
+            "use": "app-icon"
         },
         {
             "filename": "InstalledIconBase32.png",
