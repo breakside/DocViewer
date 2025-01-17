@@ -47,17 +47,25 @@ jobs:
         working-directory: DocViewer
 
       - name: Build
-        run: npx jskit make DocViewerWeb --env DocViewerWeb/production.env --docker-owner $IMAGE_OWNER --docker-image $IMAGE_NAME --docker-tag $IMAGE_TAG
+        run: npx jskit make DocViewerWeb --env DocViewerWeb/production.env --no-docker
         working-directory: DocViewer
 
-      - name: ECR Login
-        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_HOST
+      - name: Upload to S3
+        run: ./builds/io.breakside.DocViewerWeb/latest/DocViewerWeb/s3/deploy.sh dev.jskit.docs /${GITHUB_REF##*/}
+        working-directory: DocViewer
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_PUBLIC }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY_PUBLIC }}
+          AWS_REGION: "us-east-1"
 
-      - name: Tag
-        run: docker tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
+      # - name: ECR Login
+      #   run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_HOST
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_PUBLIC }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY_PUBLIC }}
 
-      - name: Push
-        run: docker push $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
+      # - name: Tag
+      #   run: docker tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
+
+      # - name: Push
+      #   run: docker push $ECR_HOST/$IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG
