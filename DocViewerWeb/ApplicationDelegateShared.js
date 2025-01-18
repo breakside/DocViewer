@@ -107,11 +107,16 @@ JSClass("ApplicationDelegateShared", JSObject, {
     },
 
     setupTelemetry: function(application){
-        this.telemetry = TelemetryClient.initWithKey(application.environment.get("TELEMETRY_CLIENT_KEY"));
+        let key = application.environment.get("TELEMETRY_CLIENT_KEY");
+        if (key){
+            this.telemetry = TelemetryClient.initWithKey(key);
+        }
     },
 
     applicationDidCrash: function(application, error, logs){
-        this.telemetry.crash(error, logs);
+        if (this.telemetry){
+            this.telemetry.crash(error, logs);
+        }
     },
 
 });
