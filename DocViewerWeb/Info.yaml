@@ -10,6 +10,7 @@ UIApplicationSystemFont:    SourceSansPro-Light
 JSDevelopmentLanguage:      en
 UIApplicationIcon:          Icon
 DockerOwner:                breakside
+HTMLDocViewer:              true
 HMTLManifestConfiguration:
   - components-manifest.json
 JSLicenseNotice: |
