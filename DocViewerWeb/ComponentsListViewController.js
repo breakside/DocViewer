@@ -165,6 +165,7 @@ var betaColor = JSColor.initWithRGBA(180/255,111/255,51/255);
 var imageByKind = {
     'index': function(){ return images.frameworkIcon; },
     'class': function(){ return images.classIcon; },
+    'extension': function(){ return images.classIcon; },
     'constructor': function(){ return images.constructorIcon; },
     'document': function(){ return images.docIcon; },
     'enum': function(){ return images.enumIcon; },
